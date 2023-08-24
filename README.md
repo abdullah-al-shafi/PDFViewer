@@ -4,8 +4,9 @@
 #### minSdk 24
 #### targetSdk 33
 
-
+## App Visual 
+<p align="center">
 <img src="https://github.com/abdullah-al-shafi/PDFViewer/blob/main/review.gif" width="200" height="400" />
-
+</p>
 
 
