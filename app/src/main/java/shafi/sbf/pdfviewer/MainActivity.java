@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 
 
 import java.io.IOException;
@@ -19,7 +20,7 @@ import java.util.concurrent.Executors;
 public class MainActivity extends AppCompatActivity {
 
     private PDFView pdfView;
-    private ProgressBar progressBar;
+    ProgressBar progress_dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         pdfView = findViewById(R.id.pdfView);
-        progressBar = findViewById(R.id.progressBar);
+        progress_dialog = findViewById(R.id.progress_dialog);
 
         String pdfUrl = "https://usus.org.bd/ictbook/ict%20book.pdf";
 
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                     // Process the inputStream or update the UI as needed
                     // For example, you can set the PDF content to a TextView
                     // textView.setText(processInputStream(inputStream));
-                    progressBar.setVisibility(View.GONE);
+
                     pdfView.fromStream(inputStream)
                             .enableSwipe(true) // allows to block changing pages using swipe
                             .swipeHorizontal(false)
@@ -56,7 +57,17 @@ public class MainActivity extends AppCompatActivity {
                             .enableAntialiasing(true) // improve rendering a little bit on low-res screens
                             // spacing between pages in dp. To define spacing color, set view background
                             .spacing(0)
+                            .onLoad(new OnLoadCompleteListener() {
+                                @Override
+                                public void loadComplete(int nbPages) {
+                                    progress_dialog.setVisibility(View.GONE);
+                                }
+                            })
                             .load();
+
+
+
+
                 });
 
             } catch (IOException e) {
